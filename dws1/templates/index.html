@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Tasks</title>
+    </head>
+    <body>
+        <h1>Tasks</h1>
+        <ul>
+            {% for task in tasks %}
+            <li>{{ task[2] }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('add') }}">Add Task</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% if session.get('role') == 'admin' %}
+        <a href="{{ url_for('admin') }}">Admin</a>
+        {% endif %}
+    </body>
+</html>
