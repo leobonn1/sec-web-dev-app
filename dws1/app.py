@@ -141,6 +141,8 @@ def authorized():
         if 'access_token' in result:
             session['user'] = result.get('id_token_claims')
             print(session['user'])
+            session['preferred_username'] = session['user'].preferred_username
+            print(session['preferred_username'])
             _save_cache(cache)
     return redirect(url_for('index'))
 
