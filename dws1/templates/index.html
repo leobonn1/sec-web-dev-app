@@ -5,10 +5,10 @@
     </head>
     <body>
         {% if 'name' in session %}
-            <h1>Welcome {{ session.get('name') }}</h2>
+            <h1>Welcome, {{ session.get('name') }}!</h2>
         {% endif %}
-        <h1>Tasks</h1>
-
+        <br/>
+        <h2>Tasks</h2>
         <ul>
             {% for task in tasks %}
             <li>{{ task[2] }}</li>
