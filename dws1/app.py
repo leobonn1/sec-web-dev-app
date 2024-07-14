@@ -154,7 +154,7 @@ def authorized():
             print(session['preferred_username'])
             print(session['name'])
             _save_cache(cache)
-    return render_template('index.html',session['name']) # redirect(url_for('index'))
+    return redirect(url_for('index'))
 
 def _build_msal_app(cache=None):
     return ConfidentialClientApplication(
