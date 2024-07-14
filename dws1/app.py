@@ -127,7 +127,7 @@ def admin():
     return render_template('admin.html', users=users)
 
 @app.route('/vip', methods=['GET'])
-def admin():
+def vip():
     if 'user_id' not in session or session.get('role') != 'vip':
         return redirect(url_for('/'))
  
