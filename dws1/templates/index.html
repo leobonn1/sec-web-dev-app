@@ -15,5 +15,8 @@
         {% if session.get('role') == 'admin' %}
         <a href="{{ url_for('admin') }}">Admin</a>
         {% endif %}
+        {% if session.get('role') == 'vip' %}
+        <a href="{{ url_for('vip-page') }}">VIP</a>
+        {% endif %}
     </body>
 </html>

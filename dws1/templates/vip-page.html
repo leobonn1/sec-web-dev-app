@@ -5,7 +5,8 @@
     </head>
     <body>
         <h1>VIP Page</h1>
-        <h2>This page is available only for VIP users.</h2>
+        <h2>Welcome {{ user }}</h2>
+        <h2>This page is available only for VIP users, like YOU</h2>
         <a href="{{ url_for('index') }}">Back</a>
     </body>
 </html>
