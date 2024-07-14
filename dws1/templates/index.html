@@ -11,7 +11,7 @@
         <h2>Tasks</h2>
         <ul>
             {% for task in tasks %}
-            <li>{{ task[2] }} - {{ task[2] }}</li>
+            <li>{{ task[2] }}</li>
             {% endfor %}
         </ul>
         <a href="{{ url_for('add') }}">Add Task</a>
