@@ -4,7 +4,7 @@
         <title>Tasks</title>
     </head>
     <body>
-        {% if session.get('name') is not None %}
+        {% if 'name' in session %}
             <h1>Welcome {{ session.get('name') }}</h2>
         {% endif %}
         <h1>Tasks</h1>
