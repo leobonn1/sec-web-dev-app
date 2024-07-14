@@ -1,10 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
-
+from msal import ConfidentialClientApplication
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 DATABASE = 'example.db'
+
+CLIENT_ID = os.environ.get("CLIENT_ID")
+print(CLIENT_ID)
+CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+SECRET_ID = os.environ.get("SECRET_ID")
+AUTHORITY = 'https://login.microsoftonline.com/common'
+REDIRECT_PATH = '/getAToken'
+ENDPOINT = 'https://graph.microsoft.com/User.Read'
+SCOPE = ['User.Read']
 
 # Função para inicializar o banco de dados
 def init_db():
@@ -57,7 +66,10 @@ def login():
             session['user_id'] = user[0]
             session['username'] = user[1]
             session['role'] = user[3]
-            return redirect(url_for('index'))
+            #mfa com MS Authenticator
+            auth_url = _build_auth_url(scopes=SCOPE)
+            return redirect(auth_url)
+            #return redirect(url_for('index'))
         return 'Login Failed'
     return render_template('login.html')
 
@@ -111,6 +123,41 @@ def admin():
     users = c.fetchall()
     conn.close()
     return render_template('admin.html', users=users)
+
+@app.route(REDIRECT_PATH)
+def authorized():
+    if request.args.get('error'):
+        return request.args.get('error')
+    if 'code' in request.args:
+        cache = _load_cache()
+        result = _build_msal_app(cache=cache).acquire_token_by_authorization_code(
+            request.args['code'],
+            scopes=SCOPE,
+            redirect_uri=url_for('authorized', _external=True, _scheme='https'))
+        if 'access_token' in result:
+            session['user'] = result.get('id_token_claims')
+            _save_cache(cache)
+    return redirect(url_for('index'))
+
+def _build_msal_app(cache=None):
+    return ConfidentialClientApplication(
+        CLIENT_ID, authority=AUTHORITY,
+        client_credential=CLIENT_SECRET, token_cache=cache)
+
+def _build_auth_url(scopes=None):
+    return _build_msal_app().get_authorization_request_url(
+        scopes or [],
+        redirect_uri=url_for('authorized', _external=True, _scheme='https'))
+
+def _load_cache():
+    cache = msal.SerializableTokenCache()
+    if session.get('token_cache'):
+        cache.deserialize(session['token_cache'])
+    return cache
+
+def _save_cache(cache):
+    if cache.has_state_changed:
+        session['token_cache'] = cache.serialize()
 
 if __name__ == '__main__':
     init_db()
