@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
-from msal import ConfidentialClientApplication
+from msal import ConfidentialClientApplication, SerializableTokenCache
 import os
 
 app = Flask(__name__)
@@ -9,7 +9,6 @@ app.secret_key = 'supersecretkey'
 DATABASE = 'example.db'
 
 CLIENT_ID = os.environ.get("CLIENT_ID")
-print(CLIENT_ID)
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 SECRET_ID = os.environ.get("SECRET_ID")
 AUTHORITY = 'https://login.microsoftonline.com/common'
@@ -152,7 +151,7 @@ def _build_auth_url(scopes=None):
         redirect_uri=url_for('authorized', _external=True, _scheme='https'))
 
 def _load_cache():
-    cache = msal.SerializableTokenCache()
+    cache = SerializableTokenCache()
     if session.get('token_cache'):
         cache.deserialize(session['token_cache'])
     return cache
