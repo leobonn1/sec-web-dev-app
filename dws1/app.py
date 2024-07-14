@@ -37,8 +37,9 @@ def init_db():
         )
     ''')
     # Inserir um usuário administrador padrão
-    admin_username = 'admin'
-    admin_password = generate_password_hash('admin123')  # Lembre-se de usar uma senha segura na produção
+    admin_username = os.environ.get(ADMIN_USERNAME)
+    admin_password_clear = os.environ.get(ADMIN_PASSWORD_CLEAR)
+    admin_password = generate_password_hash(admin_password_clear)  
     admin_role = 'admin'
     c.execute('SELECT * FROM users WHERE username = ?', (admin_username,))
     if not c.fetchone():
