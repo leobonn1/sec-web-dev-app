@@ -126,13 +126,13 @@ def admin():
     conn.close()
     return render_template('admin.html', users=users)
 
-@app.route('/vip-page', methods=['GET'])
+@app.route('/vip', methods=['GET'])
 def admin():
     if 'user_id' not in session or session.get('role') != 'vip':
         return redirect(url_for('/'))
  
     user = session.get('preferred_username')
-    return render_template('vip-page.html', user=users)
+    return render_template('vip.html', user=users)
 
 #Página de redirect após mfa
 @app.route(REDIRECT_PATH)
