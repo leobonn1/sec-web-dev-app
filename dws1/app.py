@@ -131,8 +131,8 @@ def vip():
     if 'user_id' not in session or session.get('role') != 'vip':
         return redirect(url_for('index'))
  
-    user = session.get('preferred_username')
-    return render_template('vip.html', user=user)
+    name = session.get('name')
+    return render_template('vip.html', name=name)
 
 #Página de redirect após mfa
 @app.route(REDIRECT_PATH)
@@ -149,11 +149,12 @@ def authorized():
         print(result)
         if 'access_token' in result:
             session['user'] = result.get('id_token_claims')
-            print(session['user'])
             session['preferred_username'] = result.get('id_token_claims', {}).get('preferred_username')
+            session['name'] = result.get('id_token_claims', {}).get('name')
             print(session['preferred_username'])
+            print(session['name'])
             _save_cache(cache)
-    return redirect(url_for('index'))
+    return render_template('index.html',session['name']) # redirect(url_for('index'))
 
 def _build_msal_app(cache=None):
     return ConfidentialClientApplication(
