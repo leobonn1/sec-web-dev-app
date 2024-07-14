@@ -12,7 +12,7 @@ CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 SECRET_ID = os.environ.get("SECRET_ID")
 AUTHORITY = 'https://login.microsoftonline.com/common'
-REDIRECT_PATH = '/getAToken'
+REDIRECT_PATH = '/get-token'
 ENDPOINT = 'https://graph.microsoft.com/User.Read'
 SCOPE = ['User.Read']
 
