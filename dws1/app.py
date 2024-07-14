@@ -127,6 +127,7 @@ def admin():
 
 @app.route(REDIRECT_PATH)
 def authorized():
+    prnt(request)
     if request.args.get('error'):
         return request.args.get('error')
     if 'code' in request.args:
