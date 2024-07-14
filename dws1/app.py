@@ -125,9 +125,10 @@ def admin():
     conn.close()
     return render_template('admin.html', users=users)
 
+#Página de redirect após mfa
 @app.route(REDIRECT_PATH)
 def authorized():
-    prnt(request)
+    print(request)
     if request.args.get('error'):
         return request.args.get('error')
     if 'code' in request.args:
