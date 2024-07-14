@@ -132,7 +132,7 @@ def vip():
         return redirect(url_for('index'))
  
     user = session.get('preferred_username')
-    return render_template('vip.html', user=users)
+    return render_template('vip.html', user=user)
 
 #Página de redirect após mfa
 @app.route(REDIRECT_PATH)
