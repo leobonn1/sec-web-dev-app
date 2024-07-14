@@ -2,4 +2,3 @@ Flask
 Werkzeug
 msal
 Gunicorn
-pip freeze
