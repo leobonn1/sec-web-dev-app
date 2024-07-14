@@ -5,7 +5,7 @@ from msal import ConfidentialClientApplication, SerializableTokenCache
 import os
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'
+app.secret_key = os.environ.get("SECRET_KEY")
 DATABASE = 'example.db'
 
 CLIENT_ID = os.environ.get("CLIENT_ID")
