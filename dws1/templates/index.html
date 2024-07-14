@@ -4,7 +4,11 @@
         <title>Tasks</title>
     </head>
     <body>
+        {% if session.get('name') is not None %}
+            <h1>Welcome {{ session.get('name') }}</h2>
+        {% endif %}
         <h1>Tasks</h1>
+
         <ul>
             {% for task in tasks %}
             <li>{{ task[2] }}</li>
