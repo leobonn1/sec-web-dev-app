@@ -137,8 +137,10 @@ def authorized():
             request.args['code'],
             scopes=SCOPE,
             redirect_uri=url_for('authorized', _external=True, _scheme='https'))
+        print(result)
         if 'access_token' in result:
             session['user'] = result.get('id_token_claims')
+            print(session['user'])
             _save_cache(cache)
     return redirect(url_for('index'))
 
